@@ -338,8 +338,8 @@
           
             <p>讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。</p>
 <h4 id="量子线路"><a href="#量子线路" class="headerlink" title="量子线路"></a>量子线路</h4><p>量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。</p>
-<p><img src="/Users/quantumnetwalker/Documents/Photos/ScreenShot/bell.png" alt="bell"></p>
-<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle$， $a^2$表示状态$|0\rangle$出现的概率， $b^2$表示状态$|1\rangle$出现的概率。如果取$|0\rangle= \begin{pmatrix}1 \0 \end{pmatrix}$和$|1\rangle= \begin{pmatrix}0 \1 \end{pmatrix}$作为二维线性空间的一个基，那么量子态$|\psi\rangle$也可以写成一个二维矢量$\begin{pmatrix}a \b \end{pmatrix}$。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入$|00\rangle=|0\rangle_1\bigotimes|0\rangle_2$，$\bigotimes$表示1系统和2系统的张量积(tensor product)，$\begin{pmatrix}a \b \end{pmatrix} \bigotimes \begin{pmatrix}c \d \end{pmatrix}=\begin{pmatrix}ac \ad \bc\bd \end{pmatrix}$。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 $|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$，也就是两个qubits的最大纠缠态。</p>
+<p><img src="./bell.png" alt="bell"></p>
+<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle$， $a^2$表示状态$|0\rangle$出现的概率， $b^2$表示状态$|1\rangle$出现的概率。如果取$|0\rangle= \begin{pmatrix}1 \ 0 \end{pmatrix}$和$|1\rangle= \begin{pmatrix}0 \ 1 \end{pmatrix}$作为二维线性空间的一个基，那么量子态$|\psi\rangle$也可以写成一个二维矢量$\begin{pmatrix}a \ b \end{pmatrix}$。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入$|00\rangle=|0\rangle_1\bigotimes|0\rangle_2$，$\bigotimes$表示1系统和2系统的张量积(tensor product)，$\begin{pmatrix}a \ b \end{pmatrix} \bigotimes \begin{pmatrix}c \ d \end{pmatrix}=\begin{pmatrix}ac \ ad \ bc\ bd \end{pmatrix}$。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 $|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$，也就是两个qubits的最大纠缠态。</p>
 <p>让我们来复习一下常用的单比特门：</p>
 <script type="math/tex; mode=display">
 H=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&1\\1&-1  \end{pmatrix} \\
@@ -408,7 +408,7 @@ H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&1\\1&-1  \end{pmatrix} \begin{pma
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/08/30/量子机器学习的渊源/">
+    <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/08/30/八卦一下量子机器学习的历史/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jinlong Huang">
@@ -427,7 +427,7 @@ H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&1\\1&-1  \end{pmatrix} \begin{pma
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/08/30/量子机器学习的渊源/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2017/08/30/八卦一下量子机器学习的历史/" itemprop="url">Untitled</a></h1>
         
 
         <div class="post-meta">
@@ -457,7 +457,7 @@ H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&1\\1&-1  \end{pmatrix} \begin{pma
 
           
           
-             <span id="/2017/08/30/量子机器学习的渊源/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2017/08/30/八卦一下量子机器学习的历史/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
