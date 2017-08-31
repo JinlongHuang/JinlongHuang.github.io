@@ -257,6 +257,140 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/08/31/QSVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jinlong Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/group.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinlong Huang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/31/QSVM/" itemprop="url">Quantum SVM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T21:22:01+08:00">
+                2017-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/31/QSVM/" class="leancloud_visitors" data-flag-title="Quantum SVM">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。</p>
+<h4 id="量子线路">量子线路</h4>
+<p>量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。</p>
+<div class="figure">
+<img src="/images/bell.png" alt="EPR pair">
+<p class="caption">EPR pair</p>
+</div>
+<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle\)</span> 和 <span class="math inline">\(|1\rangle\)</span>， <span class="math inline">\(a^2\)</span>表示状态<span class="math inline">\(|0\rangle\)</span>出现的概率， <span class="math inline">\(b^2\)</span>表示状态<span class="math inline">\(|1\rangle\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2\)</span>，<span class="math inline">\(\bigotimes\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}\)</span>。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)\)</span>，也就是两个qubits的最大纠缠态。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/31/QSVM/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/08/31/八卦一下量子机器学习的历史/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -346,140 +480,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/31/八卦一下量子机器学习的历史/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/08/31/QSVM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jinlong Huang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/group.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jinlong Huang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/31/QSVM/" itemprop="url">Quantum SVM</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-31T20:51:01+08:00">
-                2017-08-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/31/QSVM/" class="leancloud_visitors" data-flag-title="Quantum SVM">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。</p>
-<h4 id="量子线路">量子线路</h4>
-<p>量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。</p>
-<div class="figure">
-<img src="/images/bell.png" alt="EPR pair">
-<p class="caption">EPR pair</p>
-</div>
-<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle\)</span> 和 <span class="math inline">\(|1\rangle\)</span>， <span class="math inline">\(a^2\)</span>表示状态<span class="math inline">\(|0\rangle\)</span>出现的概率， <span class="math inline">\(b^2\)</span>表示状态<span class="math inline">\(|1\rangle\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2\)</span>，<span class="math inline">\(\bigotimes\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}\)</span>。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)\)</span>，也就是两个qubits的最大纠缠态。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/31/QSVM/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -624,7 +624,7 @@
             <ul class="links-of-blogroll-list">
               
                 <li class="links-of-blogroll-item">
-                  <a href="http://yupanliu.link" title="Yupan" target="_blank">Yupan</a>
+                  <a href="http://yupanliu.link" title="Yupan Liu" target="_blank">Yupan Liu</a>
                 </li>
               
             </ul>
