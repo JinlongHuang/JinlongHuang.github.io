@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle">
+<meta name="description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle​$，这个量子系统只有两种可能允许的状态$|0\rangle​$ 和 $|1\rang">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Jinlong Huang">
 <meta property="og:url" content="http://blog.jinlonghuang.org/2017/08/31/qsvm/index.html">
 <meta property="og:site_name" content="Jinlong Huang">
-<meta property="og:description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle">
+<meta property="og:description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle​$，这个量子系统只有两种可能允许的状态$|0\rangle​$ 和 $|1\rang">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://blog.jinlonghuang.org/2017/08/31/qsvm/bell.png">
-<meta property="og:updated_time" content="2017-08-31T12:25:04.000Z">
+<meta property="og:updated_time" content="2017-08-31T12:36:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jinlong Huang">
-<meta name="twitter:description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle">
+<meta name="twitter:description" content="讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。 量子线路量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle​$，这个量子系统只有两种可能允许的状态$|0\rangle​$ 和 $|1\rang">
 <meta name="twitter:image" content="http://blog.jinlonghuang.org/2017/08/31/qsvm/bell.png">
 
 
@@ -336,7 +336,7 @@
         <p>讲QSVM之前我先介绍一下量子线路和经典SVM的背景知识。</p>
 <h4 id="量子线路"><a href="#量子线路" class="headerlink" title="量子线路"></a>量子线路</h4><p>量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。</p>
 <p><img src="./bell.png" alt="bell"></p>
-<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle$，这个量子系统只有两种可能允许的状态$|0\rangle$ 和 $|1\rangle$， $a^2$表示状态$|0\rangle$出现的概率， $b^2$表示状态$|1\rangle$出现的概率。如果取$|0\rangle= \begin{pmatrix}1 \ 0 \end{pmatrix}$和$|1\rangle= \begin{pmatrix}0 \ 1 \end{pmatrix}$作为二维线性空间的一个基，那么量子态$|\psi\rangle$也可以写成一个二维矢量$\begin{pmatrix}a \ b \end{pmatrix}$。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入$|00\rangle=|0\rangle_1\bigotimes|0\rangle_2$，$\bigotimes$表示1系统和2系统的张量积(tensor product)，$\begin{pmatrix}a \ b \end{pmatrix} \bigotimes \begin{pmatrix}c \ d \end{pmatrix}=\begin{pmatrix}ac \ ad \ bc\ bd \end{pmatrix}$。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 $|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)$，也就是两个qubits的最大纠缠态。</p>
+<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： $|\psi\rangle=a |0\rangle+b |1\rangle​$，这个量子系统只有两种可能允许的状态$|0\rangle​$ 和 $|1\rangle​$， $a^2​$表示状态$|0\rangle​$出现的概率， $b^2​$表示状态$|1\rangle​$出现的概率。如果取$|0\rangle= \begin{pmatrix}1 \ 0 \end{pmatrix}​$和$|1\rangle= \begin{pmatrix}0 \ 1 \end{pmatrix}​$作为二维线性空间的一个基，那么量子态$|\psi\rangle​$也可以写成一个二维矢量$\begin{pmatrix}a \ b \end{pmatrix}​$。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入$|00\rangle=|0\rangle_1\bigotimes|0\rangle_2​$，$\bigotimes​$表示1系统和2系统的张量积(tensor product)，$\begin{pmatrix}a \ b \end{pmatrix} \bigotimes \begin{pmatrix}c \ d \end{pmatrix}=\begin{pmatrix}ac \ ad \ bc\ bd \end{pmatrix}​$。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 $|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)​$，也就是两个qubits的最大纠缠态。</p>
 <p>让我们来复习一下常用的单比特门：</p>
 <script type="math/tex; mode=display">
 H=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&1\\1&-1  \end{pmatrix} \\
