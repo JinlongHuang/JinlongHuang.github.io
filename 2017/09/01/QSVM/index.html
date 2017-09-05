@@ -93,18 +93,23 @@
 
 
 
-<meta name="description" content="讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。 量子线路 量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，这个量子系统只有两种可能">
+<meta name="description" content="​ 讲Quantum SVM之前我先介绍一下量子线路（quantum circuit）和Classical SVM的背景知识。 1. 量子线路 ​ 量子线路模型十分直观，很符合我们正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="quantum SVM">
 <meta property="og:url" content="http://blog.jinlonghuang.org/2017/09/01/QSVM/index.html">
 <meta property="og:site_name" content="Jinlong Huang">
-<meta property="og:description" content="讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。 量子线路 量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，这个量子系统只有两种可能">
+<meta property="og:description" content="​ 讲Quantum SVM之前我先介绍一下量子线路（quantum circuit）和Classical SVM的背景知识。 1. 量子线路 ​ 量子线路模型十分直观，很符合我们正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangl">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/bell.png">
-<meta property="og:updated_time" content="2017-09-01T05:19:10.000Z">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/linear.jpg">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/geo.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/high.jpg">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/circle.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/rotate.gif">
+<meta property="og:updated_time" content="2017-09-05T16:50:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="quantum SVM">
-<meta name="twitter:description" content="讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。 量子线路 量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，这个量子系统只有两种可能">
+<meta name="twitter:description" content="​ 讲Quantum SVM之前我先介绍一下量子线路（quantum circuit）和Classical SVM的背景知识。 1. 量子线路 ​ 量子线路模型十分直观，很符合我们正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangl">
 <meta name="twitter:image" content="http://blog.jinlonghuang.org/images/bell.png">
 
 
@@ -333,15 +338,15 @@
       
 
       
-        <p>讲Quantum SVM之前我先介绍一下量子线路和Classical SVM的背景知识。</p>
-<h4 id="量子线路">量子线路</h4>
-<p>量子线路模型十分直观，符合我们正常物理学家和计算机学家的思维。</p>
+        <p>​ 讲Quantum SVM之前我先介绍一下量子线路（quantum circuit）和Classical SVM的背景知识。</p>
+<h2 id="量子线路">1. 量子线路</h2>
+<p>​ 量子线路模型十分直观，很符合我们正常物理学家和计算机学家的思维[1]。</p>
 <div class="figure">
 <img src="/images/bell.png" alt="EPR pair">
 <p class="caption">EPR pair</p>
 </div>
 <p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle\)</span> 和 <span class="math inline">\(|1\rangle\)</span>， <span class="math inline">\(a^2\)</span>表示状态<span class="math inline">\(|0\rangle\)</span>出现的概率， <span class="math inline">\(b^2\)</span>表示状态<span class="math inline">\(|1\rangle\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2\)</span>，<span class="math inline">\(\bigotimes\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}\)</span>。 中间的符号H，CNOT表示我们对态进行量子门(quantum gate)的操作，经过这两个量子门后，我们就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)\)</span>，也就是两个qubits的最大纠缠态。</p>
-<p>让我们来复习一下常用的单比特门： <span class="math display">\[
+<p>​ 让我们来复习一下常用的单比特门： <span class="math display">\[
 H=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1  \end{pmatrix} \\
 X=\begin{pmatrix} 0&amp;1\\1&amp;0  \end{pmatrix}    \\
 Y=\begin{pmatrix} 0&amp;-i\\i&amp;0  \end{pmatrix}    \\
@@ -354,21 +359,92 @@ R_z(\theta)\equiv e^{-i \theta Z/2}=\text{cos}\frac{\theta}{2}I-i \text{sin} \fr
 \]</span> 可以看到Hadamard门把<span class="math inline">\(|0\rangle\)</span>映射成了<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>， <span class="math display">\[
 H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1  \end{pmatrix} \begin{pmatrix}1 \\0 \end{pmatrix}=\frac{1}{\sqrt{2}}\bigg( \begin{matrix}1 \\1 \end{matrix}\bigg)=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)
 \]</span> 同理我们也可以得到其他单比特门怎么作用在一个量子比特上的。</p>
-<p>唯一一个比较重要的双比特门就是上图用的CNOT门，它表示第一个qubit的态控制第二个qubit的态是否发生变化：当第一个是<span class="math inline">\(|0\rangle\)</span>时，第二个的态保持不变；当第一个是<span class="math inline">\(|1\rangle\)</span>时，第二个的态由<span class="math inline">\(|0\rangle\)</span>变成<span class="math inline">\(|1\rangle\)</span>，由<span class="math inline">\(|1\rangle\)</span>变成<span class="math inline">\(|0\rangle\)</span>。当然第一个qubit可以处于叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>。我们可以写出CNOT的矩阵表示 <span class="math display">\[
+<p>​ 一个比较重要的双比特门就是上图用的CNOT门，它表示第一个qubit的态控制第二个qubit的态是否发生变化：当第一个是<span class="math inline">\(|0\rangle\)</span>时，第二个的态保持不变；当第一个是<span class="math inline">\(|1\rangle\)</span>时，第二个的态由<span class="math inline">\(|0\rangle\)</span>变成<span class="math inline">\(|1\rangle\)</span>，由<span class="math inline">\(|1\rangle\)</span>变成<span class="math inline">\(|0\rangle\)</span>。当然第一个qubit可以处于叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>。我们可以写出CNOT的矩阵表示 <span class="math display">\[
 \begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}
 \]</span> 可以看到CNOT把<span class="math inline">\(|10\rangle\)</span>映射成了<span class="math inline">\(|11\rangle\)</span>， <span class="math display">\[
 \text{CNOT} |10\rangle=\begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}\begin{pmatrix} 0\\0\\1\\0\end{pmatrix}=\begin{pmatrix} 0\\0\\0\\1\end{pmatrix}=|11\rangle
-\]</span> 当第一个态是叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>，第二个态是<span class="math inline">\(|0\rangle\)</span>时，它们总的态可以写成<span class="math inline">\(\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)= \frac{1}{\sqrt{2}}\begin{pmatrix}1&amp;0&amp;1&amp;0 \end{pmatrix}^T\)</span>，同样可以像上面一样通过矩阵乘法得到作用之后的态。</p>
-<p>现在我们就能来验证一下上面那个线路图是怎么得到Bell态的了， <span class="math display">\[
+\]</span> ​ 当第一个态是叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>，第二个态是<span class="math inline">\(|0\rangle\)</span>时，它们总的态可以写成<span class="math inline">\(\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)= \frac{1}{\sqrt{2}}\begin{pmatrix}1&amp;0&amp;1&amp;0 \end{pmatrix}^T\)</span>，同样可以像上面一样通过矩阵乘法得到作用之后的态。</p>
+<p>​ 现在我们就能来验证一下上面那个线路图是怎么得到Bell态的了， <span class="math display">\[
 \text{CNOT} \cdot H |00\rangle=\\
 \begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}\Bigg[ \begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\\\frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}} \end{pmatrix} \bigotimes \begin{pmatrix}1&amp;0\\0&amp;1 \end{pmatrix}\Bigg]
 \begin{pmatrix} 1\\0\\0\\0\end{pmatrix}\\
 =\begin{pmatrix}  \frac{1}{\sqrt{2}}&amp;0&amp;0&amp; \frac{1}{\sqrt{2}}\end{pmatrix}^T
 =\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)
 \]</span></p>
-<h4 id="支持向量机">支持向量机</h4>
-<h6 id="线性分类器">线性分类器</h6>
-<p>svm的基本模型是定义在特征空间上的间隔最大的二元线性分类器。</p>
+<h2 id="支持向量机">2. 支持向量机</h2>
+<p>​ 最早的支持向量机早在1963年就被万普尼克等人提出，不过只能用于线性分类，随后1992年他又和其他研究者提出可以用核技巧应用于最大间隔超平面来创建非线性分类器。这个方法一诞生后就由于它良好的分类性能以及清楚的可解释性碾压神经网络，再之后1998年微软研究院的John C. Platt提出序列最小化Sequential Minimal Optimization（SMO）算法更是迅速地提高了SVM的训练效率。SVM是目前最常用，效果最好的分类器之一，并且由于只依赖于支持向量，没有对大数据的要求。由于其能够处理二分类和回归的问题，有很多广泛的应用，比如人脸检测，时间序列预测，系统辨识，金融工程，生物医药信号处理，数据挖掘，生物信息，文本挖掘，基于支持向量机的数据库学习算法，手写体相似字识别等等。</p>
+<h4 id="线性分类器的模型">2. 1. 线性分类器的模型</h4>
+<p>​ 线性svm是定义在特征空间上的间隔最大的二元线性分类器[2]。它的起源可以追溯到logistic回归[3]，回想logistic函数（sigmoid函数）<span class="math inline">\(h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}\)</span> 把实数<span class="math inline">\(\theta^Tx\)</span>映射到(0,1)，其中<span class="math inline">\(x\)</span>是<span class="math inline">\(n\)</span>维特征向量，logistic回归的目标就是优化<span class="math inline">\(n\)</span>维向量<span class="math inline">\(\theta=\begin{pmatrix} \theta_1 &amp; \theta_2 &amp; \cdots &amp;\theta_n \end{pmatrix}^T\)</span> s.t. 对于标签为<span class="math inline">\(y=1\)</span>的数据<span class="math inline">\(x\)</span>，<span class="math inline">\(h_{\theta}(x) \ge 0.5\)</span>， 而对于标签为<span class="math inline">\(y=0\)</span>的数据<span class="math inline">\(x\)</span>，<span class="math inline">\(h_{\theta}(x) &lt; 0.5\)</span>。我们可以注意到<span class="math inline">\(h_{\theta}(x)\)</span>只与<span class="math inline">\(\theta^Tx\)</span>有关，<span class="math inline">\(\theta^Tx&gt;0\)</span>，那么<span class="math inline">\(h_{\theta}(x)&gt;0.5\)</span>，<span class="math inline">\(h_{\theta}(x)\)</span>只是个映射，真实的决定权掌握在<span class="math inline">\(\theta^Tx\)</span>手里。</p>
+<p>​ 把<span class="math inline">\(h_{\theta}(x)\)</span>稍微变形一下，用字符<span class="math inline">\(w\)</span>代替<span class="math inline">\(\theta\)</span>，加上常数偏移b，<span class="math inline">\(\theta^Tx=w^Tx+b\)</span>，那么<span class="math inline">\(h_{\theta}(x)=g(\theta^Tx)=g(w^Tx+b)=h_{w,b}(x)\)</span>，我们也可以简化一下<span class="math inline">\(g(z)\)</span>，使其简单映射到<span class="math inline">\(y=-1\)</span>和<span class="math inline">\(y=1\)</span>上 <span class="math display">\[
+g(z)=
+\begin{cases}
+1, &amp; z\ge 0 \\
+-1, &amp; z &lt;0
+\end{cases}
+\]</span> <img src="/images/linear.jpg" alt="线性可分的数据"></p>
+<p>​ 在上面这个例子中，两种数据的特征空间是二维的，我们可以用一条直线把它们分开，这条直线就相当于一个超平面，可以用分类函数<span class="math inline">\(f(x)=w^Tx+b\)</span>来表示，当<span class="math inline">\(f(x)=0\)</span>时，<span class="math inline">\(x\)</span>是位于超平面上的一点，而<span class="math inline">\(f(x)\ge0\)</span>对应于<span class="math inline">\(y=1\)</span>的数据点，<span class="math inline">\(f(x)&lt;0\)</span>对应于<span class="math inline">\(y=-1\)</span>的点。这样当我们把一个新的测试数据点<span class="math inline">\(x\)</span>输入<span class="math inline">\(f(x)\)</span>，<span class="math inline">\(f(x)\)</span>就能告诉我们这个测试点是属于哪一类。</p>
+<p>​ 我们接下来的任务就是来确定这个超平面<span class="math inline">\(f(x)=w^Tx+b\)</span>。最好的超平面应该使得两边的数据点到这条直线的距离之和最大，也就是分隔最大的超平面。</p>
+<div class="figure">
+<img src="/images/geo.png" alt="几何间隔">
+<p class="caption">几何间隔</p>
+</div>
+<p>​ 我们需要先表示出几何间隔。如上图，令平面上一个点<span class="math inline">\(x_i\)</span>投影到超平面上的的为<span class="math inline">\(x_0\)</span>，<span class="math inline">\(w\)</span>是垂直于超平面的一个向量，<span class="math inline">\(\gamma\)</span>为样本<span class="math inline">\(x_i\)</span>到超平面的距离。于是根据平面几何的知识不难得到<span class="math inline">\(x_i=x_0+\gamma \frac{w}{||w||}\)</span>，又因为<span class="math inline">\(x_0\)</span>是超平面上的一点，<span class="math inline">\(w^Tx_0+b=0\)</span>，所以几何间隔 <span class="math display">\[
+\gamma_i=\frac{|w^Tx_i+b|}{||w||}=\frac{y(w^Tx_i+b)}{||w||}=\frac{yf(x_i)}{||w||}
+\]</span> 对于n个数据点<span class="math inline">\(x_1,x_2 \cdots, x_n\)</span>，几何间隔可以定义为它们的最小值<span class="math inline">\(\gamma=\text{min}_i \gamma_i\)</span>。</p>
+<p>​ 我们可以令<span class="math inline">\(\gamma\)</span>中的分子<span class="math inline">\(\text{min}_iy(w^Tx_i+b)=1\)</span>，那么对于所有数据点应该满足<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots,n\)</span>。我们现在的目标就是调整参数<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>，使得<span class="math inline">\(\gamma=\frac{1}{||w||}\)</span>取最大值，并且满足上式约束条件。</p>
+<p>​ 说个题外话，SVM和感知机的原理很相似，感知机在1957年就提出来了，是最古老的分类方法之一[4]，感知机的模型和SVM的是一模一样的，区别只在于优化感知机的损失函数时是固定的分母<span class="math inline">\(|||w||\)</span>，求的是所有误分类的样本到超平面的距离之和的最小值<span class="math inline">\(\gamma=\text{min}_{w,b}\sum_{x_i\in M}-y(w^Tx_i+b)\)</span>，<span class="math inline">\(M\)</span>是所有误分类点的集合。</p>
+<h4 id="转化为对偶问题">2. 2. 转化为对偶问题</h4>
+<p>​ 对于需要满足不等式约束条件的优化问题我们可以加入拉格朗日乘子。原先求<span class="math inline">\(\text{max}\frac{1}{||w||}\)</span>实际上等价于求<span class="math inline">\(\text{min}\frac{1}{2}||w||^2\)</span>。考虑拉格朗日函数 <span class="math display">\[
+\mathscr{L}(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^n\alpha_i\big(y_i(w^Tx_i+b)-1\big)
+\]</span> 如果我们考虑这个函数对于<span class="math inline">\(\alpha\)</span>的最大值<span class="math inline">\(\theta(w)=\text{max}_{\alpha_i\ge0}\mathscr{L}(w,b,\alpha)\)</span>，可以发现使得<span class="math inline">\(\theta(w)\)</span>取最小值的<span class="math inline">\(w\)</span>正好也能使<span class="math inline">\(\frac{1}{2}||w||^2\)</span>取最小值，并且满足约束条件<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots,n\)</span>。因为对于不满足约束的<span class="math inline">\(w\)</span>，比如<span class="math inline">\(y(w^Tx_i+b)&lt;1\)</span>，<span class="math inline">\(\alpha\)</span>可以取<span class="math inline">\(\infty\)</span>，也就是不管<span class="math inline">\(w\)</span>怎么取，<span class="math inline">\(\theta(w)\)</span>对<span class="math inline">\(w\)</span>的最小值是<span class="math inline">\(\infty\)</span>，自然没有满足约束的<span class="math inline">\(\theta(w)\)</span>小。这样原来含约束条件的优化问题就变成了单纯的优化<span class="math inline">\(w,b\)</span>，s.t. <span class="math inline">\(\theta(w)=\text{min}_{w,b}\theta(w)=\text{min}_{w,b}\text{max}_{\alpha_i\ge0}\mathscr{L}(w,b,\alpha)\equiv p^*\)</span>。</p>
+<p>​ 调换一下求最大最小的顺序，我们得到原始问题的对偶问题，对用<span class="math inline">\(d^*\)</span>来表示偶问题的最优值，<span class="math inline">\(d^*\equiv \text{max}_{\alpha_i\ge0}\text{min}_{w,b}\mathscr{L}(w,b,\alpha)\)</span>，而且有<span class="math inline">\(d^*\le p^*\)</span>。可以验证，我们这里的函数<span class="math inline">\(\frac{1}{2}||w||^2\)</span>以及约束条件<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots,n\)</span>满足Slater条件和KKK条件，所以能取到等号<span class="math inline">\(d^*=p^*\)</span>。那么我们就可以直接改成求对偶问题了（之所以改成求对偶问题是因为<span class="math inline">\(\mathscr{L}(w,b,\alpha)\)</span>对<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>的导数比对<span class="math inline">\(\alpha_i\)</span>的导数好求）。</p>
+<p>​ 我们有 <span class="math display">\[
+\frac{\partial \mathscr{L}}{\partial w}=0 \Rightarrow w=\sum_{i=1}^n \alpha_i y_i x_i \tag1 \label{1} \\
+\frac{\partial \mathscr{L}}{\partial b}=0 \Rightarrow \sum_{i=1}^n \alpha_i y_i=0
+\]</span> 代入<span class="math inline">\(\mathscr{L}(w,b,\alpha)\)</span>消去<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>（历经千山万水后）得到[2] <span class="math display">\[
+\begin{align}
+\mathscr{L}(w,b,\alpha) =&amp;-\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j x_i^T x_j - b\sum_{i=1}^n \alpha_i y_i + \sum_{i=1}^n \alpha_i \\
+=&amp;\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j x_i^T x_j
+\end{align}
+\]</span> 剩下的对<span class="math inline">\(\alpha\)</span>的优化要用到SMO算法，在这里就不详述了，有兴趣的可以参考[2,5]。</p>
+<h4 id="非线性分类的核函数">2. 3. 非线性分类的核函数</h4>
+<p>​ 注意到对一个数据点<span class="math inline">\(x\)</span>分类时，实际上是把<span class="math inline">\(x\)</span>代入到<span class="math inline">\(f(x)=w^Tx+b\)</span>通过其正负号来进行分类的。根据前面的推导<span class="math inline">\(\ref{1}\)</span>，分类函数可以重新写成<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i\langle x_i, x\rangle +b\)</span>，也就是说要预测一个新的数据点，只要计算它与支持向量的内积$x_i, x $就好了。</p>
+<p>​ 前面介绍的方法只能用于分类线性可分的数据，但实际中的数据大多并不是线性可分的，那么需要把前面的方法推广到线性不可分的数据。我们可以简单地先把之前的特征向量提升到更高维度的向量<span class="math inline">\(x_i\rightarrow\phi_i(x)\)</span>，使得数据在高维特征空间线性可分后再套用之前的线性分类函数<span class="math inline">\(f(x)=\sum_{i=1}^l \alpha_i y_i \langle \phi(x_i)\cdot \phi(x)\rangle +b\)</span>。</p>
+<div class="figure">
+<img src="/images/high.jpg" alt="高维映射">
+<p class="caption">高维映射</p>
+</div>
+<p>但是通常来说高维特征空间是原始空间的指数倍大，在这么大一个空间中计算内积将是非常困难的，如果我们有方法在原始的特征空间计算映射之后的内积<span class="math inline">\(\langle \phi(x_i)\cdot \phi(x)\rangle\)</span>，那计算就简便很多了，这种方法就称为<em>核函数方法</em>：<span class="math inline">\(K(x,z)=\langle \phi(x_i)\cdot \phi(x)\rangle\)</span>，这里<span class="math inline">\(\phi\)</span>是从原始特征空间<span class="math inline">\(X\)</span>到内积特征空间<span class="math inline">\(F\)</span>的映射。</p>
+<p>​ 我们看一下一个简单的核函数的例子。假设我们要分类这样的数据</p>
+<div class="figure">
+<img src="/images/circle.png" alt="环状数据">
+<p class="caption">环状数据</p>
+</div>
+<p>用<span class="math inline">\(X_1\)</span>和<span class="math inline">\(X_2\)</span>表示这个二维平面的两个坐标，那么分割曲线是一个二次曲线 <span class="math display">\[
+a_1 X_1 +a_2 X_1^2 +a_3 X_2 +a_4 X_2^2 +a_5 X_1 X_2 +a_6=0
+\]</span> 可以简单地构造一个五位空间<span class="math inline">\(Z_1=X_1,Z_2=X_1^2,Z_3=X_2\)</span>,<span class="math inline">\(Z_4=X_2^2\)</span>,<span class="math inline">\(Z_5=X_1X_2\)</span>，在这个新坐标<span class="math inline">\(Z\)</span>下，原来的方程可以写成 <span class="math display">\[
+\sum_{i=1}^{5}a_i Z_i +a_6 =0
+\]</span> 这正好是一个超平面方程！也就是说，如果我们做一个映射<span class="math inline">\(\phi: R^2 \rightarrow R^5\)</span>，将<span class="math inline">\(X\)</span>按照上面的规则映射为<span class="math inline">\(Z\)</span>，那么在新的空间中原来的数据变成线性可分的了。</p>
+<div class="figure">
+<img src="/images/rotate.gif" alt="高维可分">
+<p class="caption">高维可分</p>
+</div>
+<p>​ 那么我们怎么在原始的空间里计算高维特征空间的内积呢？假设在原始空间里有两个特征向量<span class="math inline">\(x_1=(\eta_1, \eta_2)^T\)</span>和<span class="math inline">\(x_2=(\xi_1,\xi_2)^T\)</span>，那么映射后的内积为： <span class="math display">\[
+\langle \phi(x_i)\cdot \phi(x)\rangle=\eta_1 \xi_1 +\eta_1^2 \xi_1^2 +\eta_2 \xi_2 +\eta_2^2 \xi_2^2 +\eta_1 \eta_2 \xi_1 \xi_2
+\]</span> 与此同时，我们还注意到： <span class="math display">\[
+(\langle x_1,x_2\rangle+1)^2=2\eta_1 \xi_1 +\eta_1^2 \xi_1^2 +2\eta_2 \xi_2 +\eta_2^2 \xi_2^2 +2\eta_1 \eta_2 \xi_1 \xi_2 +1
+\]</span> 如果把原来的映射<span class="math inline">\(\phi\)</span>的基础上缩放一下，加一个常数维度，上面这个式子其实用映射<span class="math inline">\(\psi\)</span>， <span class="math display">\[
+\psi(X_1,X_2)=(\sqrt{2}X_1,X_1^2,\sqrt{2}X_2,X_2^2,\sqrt{2}X_1X_2,1)^T
+\]</span> 之后的内积<span class="math inline">\(\langle \psi(x_i)\cdot \psi(x)\rangle\)</span>。有后面这个式子的优点就在于我们仍然是在原始的特征空间中进行操作，却达到了在高维空间求内积的效果，达到这种效果的函数就叫做<em>核函数</em>（Kernel Function），这个例子中的核函数就是<span class="math inline">\(\kappa(x_1，x_2)=(\langle x_1,x_2\rangle+1)^2\)</span>。</p>
+<p>​ 使用核函数之后，我们的分类函数就由<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i\langle x_i, x\rangle +b\)</span>变成了<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i \kappa(x_1，x_2) +b\)</span>，需要优化的对偶问题也由<span class="math inline">\(\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j \langle \phi(x_i)\cdot \phi(x)\rangle\)</span>变成了<span class="math inline">\(\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j \kappa(x_1，x_2)\)</span>。</p>
+<p>​ 这个例子中的核函数<span class="math inline">\(\kappa(x_1，x_2)=(\langle x_1,x_2\rangle+1)^2\)</span>是多项式核函数<span class="math inline">\(\kappa(x_1，x_2)=( a x_1\cdot x_2+r)^d\)</span>中的一种，另一种最主流的核函数是高斯核函数(Gaussian Kernel)，<span class="math inline">\(\kappa(x_1,x_2)=exp(-r||x_1-x_2||^2)\)</span>，其中<span class="math inline">\(r\)</span>大于0。　Sigmoid核函数（Sigmoid Kernel）也是线性不可分SVM常用的核函数之一，表达式为：<span class="math inline">\(\kappa(x_1,x_2)=tanh(r x_1 \cdot x_2+b)\)</span>。</p>
+<h2 id="量子支持向量机">3. 量子支持向量机</h2>
+<p>参考资料：</p>
+<p>1.) Nielsen, Michael A., and Isaac Chuang. “Quantum computation and quantum information.” (2002): 558-559.</p>
+<p>2.) <a href="http://blog.csdn.net/v_july_v/article/details/7624837" target="_blank" rel="external">支持向量机通俗导论（理解SVM的三层境界）</a></p>
+<p>3.) Andrew NG, Lecture notes, <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf" target="_blank" rel="external"><em>Logistic Regression Classification</em></a>.</p>
+<p>4.) <a href="http://www.cnblogs.com/pinard/p/6042320.html" target="_blank" rel="external">感知机原理小结</a></p>
+<p>5.）Platt, John. “Sequential minimal optimization: A fast algorithm for training support vector machines.” (1998).</p>
 
       
     </div>
@@ -570,7 +646,7 @@ H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1  \end{pmatrix} \b
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#量子线路"><span class="nav-number">1.</span> <span class="nav-text">量子线路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#支持向量机"><span class="nav-number">2.</span> <span class="nav-text">支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#线性分类器"><span class="nav-number">2.0.1.</span> <span class="nav-text">线性分类器</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#量子线路"><span class="nav-number">1.</span> <span class="nav-text">1. 量子线路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机"><span class="nav-number">2.</span> <span class="nav-text">2. 支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性分类器的模型"><span class="nav-number">2.0.1.</span> <span class="nav-text">2. 1. 线性分类器的模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转化为对偶问题"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 2. 转化为对偶问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非线性分类的核函数"><span class="nav-number">2.0.3.</span> <span class="nav-text">2. 3. 非线性分类的核函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#量子支持向量机"><span class="nav-number">3.</span> <span class="nav-text">3. 量子支持向量机</span></a></li></ol></div>
             
 
           </div>
