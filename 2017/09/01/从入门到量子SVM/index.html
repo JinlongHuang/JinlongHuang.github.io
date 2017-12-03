@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="量子计算," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta name="keywords" content="量子计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从入门到量子SVM">
+<meta property="og:url" content="http://blog.jinlonghuang.org/2017/09/01/从入门到量子SVM/index.html">
+<meta property="og:site_name" content="Jinlong Huang">
+<meta property="og:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/bell.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/linear.jpg">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/geo.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/high.jpg">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/circle.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/rotate.gif">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/circuit.png">
+<meta property="og:image" content="http://blog.jinlonghuang.org/images/demo.png">
+<meta property="og:updated_time" content="2017-12-03T16:56:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从入门到量子SVM">
+<meta name="twitter:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta name="twitter:image" content="http://blog.jinlonghuang.org/images/bell.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.jinlonghuang.org/2017/09/01/从入门到量子SVM/"/>
+
+
+
+
+
+  <title>从入门到量子SVM | Jinlong Huang</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jinlong Huang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">SUSTech</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://blog.jinlonghuang.org/2017/09/01/从入门到量子SVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jinlong Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/group.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jinlong Huang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从入门到量子SVM</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-01T13:16:34+08:00">
+                2017-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/09/01/从入门到量子SVM/" class="leancloud_visitors" data-flag-title="从入门到量子SVM">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。</p>
+<h3 id="量子算法">1. 量子算法</h3>
+<h4 id="最大纠缠态">1.1. 最大纠缠态</h4>
+<p>​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。</p>
+<div class="figure">
+<img src="/images/bell.png" alt="EPR pair">
+<p class="caption">EPR pair</p>
+</div>
+<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle\)</span> 和 <span class="math inline">\(|1\rangle\)</span>，<span class="math inline">\(a,b\)</span>分别为<span class="math inline">\(|0\rangle\)</span>和<span class="math inline">\(|1\rangle\)</span>的振幅， <span class="math inline">\(a^2\)</span>表示状态<span class="math inline">\(|0\rangle\)</span>出现的概率， <span class="math inline">\(b^2\)</span>表示状态<span class="math inline">\(|1\rangle\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2\)</span>，<span class="math inline">\(\bigotimes\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}\)</span>。 中间的符号H，CNOT表示对态进行量子门(quantum gate)的操作，经过这两个量子门后就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)\)</span>，也就是两个qubits的最大纠缠态。</p>
+<p>​ 让我们来复习一下常用的单比特门：</p>
+<p><span class="math inline">\(H=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1 \end{pmatrix}\)</span>, <span class="math inline">\(X=\begin{pmatrix} 0&amp;1\\1&amp;0 \end{pmatrix}\)</span>, <span class="math inline">\(Y=\begin{pmatrix} 0&amp;-i\\i&amp;0 \end{pmatrix}\)</span>, <span class="math inline">\(Z=\begin{pmatrix} 1&amp;0\\0&amp;-1 \end{pmatrix}\)</span>, <span class="math inline">\(S=\begin{pmatrix} 1&amp;0\\0&amp;i \end{pmatrix}\)</span>, <span class="math inline">\(T=\begin{pmatrix} 1&amp;0\\0&amp;e^{i \pi/4} \end{pmatrix}\)</span>,<br>
+<span class="math display">\[
+R_x(\theta)\equiv e^{-i \theta X/2}=\text{cos}\frac{\theta}{2}I-i \text{sin} \frac{\theta}{2}X=\begin{pmatrix} \text{cos}\frac{\theta}{2} &amp; -i \text{sin}\frac{\theta}{2} \\ -i \text{sin}\frac{\theta}{2} &amp;\text{cos}\frac{\theta}{2} \end{pmatrix}
+\]</span> <span class="math display">\[
+R_y(\theta)\equiv e^{-i \theta Y/2}=\text{cos}\frac{\theta}{2}I-i \text{sin} \frac{\theta}{2}Y=\begin{pmatrix} \text{cos}\frac{\theta}{2} &amp; -\text{sin}\frac{\theta}{2} \\  \text{sin}\frac{\theta}{2} &amp;\text{cos}\frac{\theta}{2} \end{pmatrix} \\
+\]</span></p>
+<p><span class="math display">\[
+R_z(\theta)\equiv e^{-i \theta Z/2}=\text{cos}\frac{\theta}{2}I-i \text{sin} \frac{\theta}{2}Z=\begin{pmatrix} e^{-i \theta/2}&amp;0\\0&amp; e^{i \theta/2}\end{pmatrix}
+\]</span></p>
+<p>可以看到Hadamard门把<span class="math inline">\(|0\rangle\)</span>映射成了<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>， <span class="math display">\[
+H|0\rangle=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1  \end{pmatrix} \begin{pmatrix}1 \\0 \end{pmatrix}=\frac{1}{\sqrt{2}}\bigg( \begin{matrix}1 \\1 \end{matrix}\bigg)=\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)
+\]</span> 同理也可以得到其他单比特门怎么作用在一个量子比特上的。</p>
+<p>​ 一个比较重要的两比特门就是上图用的CNOT门，它表示第一个qubit的态控制第二个qubit的态是否发生变化：当第一个是<span class="math inline">\(|0\rangle\)</span>时，第二个的态保持不变；当第一个是<span class="math inline">\(|1\rangle\)</span>时，第二个的态由<span class="math inline">\(|0\rangle\)</span>变成<span class="math inline">\(|1\rangle\)</span>，由<span class="math inline">\(|1\rangle\)</span>变成<span class="math inline">\(|0\rangle\)</span>。当然第一个qubit可以处于叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>。写出CNOT的矩阵表示 <span class="math display">\[
+\begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}
+\]</span> 可以看到CNOT把<span class="math inline">\(|10\rangle\)</span>映射成了<span class="math inline">\(|11\rangle\)</span>， <span class="math display">\[
+\text{CNOT} |10\rangle=\begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}\begin{pmatrix} 0\\0\\1\\0\end{pmatrix}=\begin{pmatrix} 0\\0\\0\\1\end{pmatrix}=|11\rangle
+\]</span> ​ 当第一个态是叠加态<span class="math inline">\(\frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)\)</span>，第二个态是<span class="math inline">\(|0\rangle\)</span>时，它们总的态可以写成<span class="math inline">\(\frac{1}{\sqrt{2}}(|00\rangle+|10\rangle)= \frac{1}{\sqrt{2}}\begin{pmatrix}1,0,1,0 \end{pmatrix}^T\)</span>，同样可以像上面一样通过矩阵乘法得到作用之后的态。</p>
+<p>​ 现在就能来验证一下上面那个线路图是怎么得到Bell态的了， <span class="math display">\[
+\text{CNOT} \cdot H |00\rangle=\\
+\begin{pmatrix} 1&amp;0&amp;0&amp;0\\0&amp;1&amp;0&amp;0\\0&amp;0&amp;0&amp;1\\0&amp;0&amp;1&amp;0 \end{pmatrix}\Bigg[ \begin{pmatrix} \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\\\frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}} \end{pmatrix} \bigotimes \begin{pmatrix}1&amp;0\\0&amp;1 \end{pmatrix}\Bigg]
+\begin{pmatrix} 1\\0\\0\\0\end{pmatrix}\\
+=\begin{pmatrix}  \frac{1}{\sqrt{2}},0 , 0, \frac{1}{\sqrt{2}}\end{pmatrix}^T
+=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)
+\]</span></p>
+<h4 id="相估计">1.2. 相估计</h4>
+<p>​ 量子算法基本上可以分成两类，一类是基于量子傅里叶变换的（Quantum Fourier Transform, QFT），另一类则是基于振幅放大的（Amplitude Amplification）。相估计算法（Phase estimation）是基于QFT的一个非常重要的算法，很多其他算法也都会把它作为subroutine。</p>
+<h4 id="振幅放大">1.3. 振幅放大</h4>
+<p>Amplitude amplification</p>
+<h4 id="hhl算法">1.4. HHL算法</h4>
+<h2 id="支持向量机">2. 支持向量机</h2>
+<p>​ 最早的支持向量机早在1963年就被万普尼克（V. Vapnik）等人提出，不过只能用于线性分类，随后1992年他又和其他研究者提出可以用核技巧应用于最大间隔超平面来创建非线性分类器。这个方法一诞生后就由于它良好的分类性能以及清楚的可解释性碾压神经网络，再之后1998年微软研究院的John C. Platt提出序列最小化Sequential Minimal Optimization（SMO）算法更是迅速地提高了SVM的训练效率。SVM是目前最常用，效果最好的分类器之一，并且由于只依赖于支持向量，没有对大数据的要求。由于其能够处理二分类和回归的问题，有很多广泛的应用，比如人脸检测，时间序列预测，系统辨识，金融工程，生物医药信号处理，数据挖掘，生物信息，文本挖掘，基于支持向量机的数据库学习算法，手写体相似字识别等等。</p>
+<h4 id="线性分类器">2. 1. 线性分类器</h4>
+<p>​ 下面2.1到2.4的内容大部分是参考的[2]（我是勤劳的搬运工）。线性svm是定义在特征空间上的间隔最大的二元线性分类器[2]。它的起源可以追溯到logistic回归[3]，回想logistic函数（sigmoid函数）<span class="math inline">\(h_{\theta}(x)=g(\theta^Tx)=\frac{1}{1+e^{-\theta^Tx}}\)</span> 把实数<span class="math inline">\(\theta^Tx\)</span>映射到(0,1)，其中<span class="math inline">\(x\)</span>是<span class="math inline">\(n\)</span>维特征向量，logistic回归的目标就是优化<span class="math inline">\(n\)</span>维向量<span class="math inline">\(\theta=\begin{pmatrix} \theta_1 &amp; \theta_2 &amp; \cdots &amp;\theta_n \end{pmatrix}^T\)</span> s.t. 对于标签为<span class="math inline">\(y=1\)</span>的数据<span class="math inline">\(x\)</span>，<span class="math inline">\(h_{\theta}(x) \ge 0.5\)</span>， 而对于标签为<span class="math inline">\(y=0\)</span>的数据<span class="math inline">\(x\)</span>，<span class="math inline">\(h_{\theta}(x) &lt; 0.5\)</span>。可以注意到<span class="math inline">\(h_{\theta}(x)\)</span>只与<span class="math inline">\(\theta^Tx\)</span>有关，<span class="math inline">\(\theta^Tx&gt;0\)</span>，那么<span class="math inline">\(h_{\theta}(x)&gt;0.5\)</span>，<span class="math inline">\(h_{\theta}(x)\)</span>只是个映射，真实的决定权掌握在<span class="math inline">\(\theta^Tx\)</span>手里。</p>
+<p>​ 把<span class="math inline">\(h_{\theta}(x)\)</span>稍微变形一下，用字符<span class="math inline">\(w\)</span>代替<span class="math inline">\(\theta\)</span>，加上常数偏移b，<span class="math inline">\(\theta^Tx=w^Tx+b\)</span>，那么<span class="math inline">\(h_{\theta}(x)=g(\theta^Tx)=g(w^Tx+b)=h_{w,b}(x)\)</span>，我们也可以用符号函数sign(z)代替<span class="math inline">\(g(z)\)</span>，使其简单映射到<span class="math inline">\(y=-1\)</span>和<span class="math inline">\(y=1\)</span>上 <span class="math display">\[
+g(z)=\text{sign}(z)=
+\begin{cases}
+1, &amp; z\ge 0 \\
+-1, &amp; z &lt;0
+\end{cases}
+\]</span> <img src="/images/linear.jpg" alt="线性可分的数据"></p>
+<p>​ 在上面这个例子中，两种数据的特征空间是二维的，可以用一条直线把它们分开，这条直线就相当于一个超平面，可以用分类函数<span class="math inline">\(f(x)=w^Tx+b\)</span>来表示，当<span class="math inline">\(f(x)=0\)</span>时，<span class="math inline">\(x\)</span>是位于超平面上的一点，而<span class="math inline">\(f(x)\ge0\)</span>对应于<span class="math inline">\(y=1\)</span>的数据点，<span class="math inline">\(f(x)&lt;0\)</span>对应于<span class="math inline">\(y=-1\)</span>的点。这样当我们把一个新的测试数据点<span class="math inline">\(x\)</span>输入<span class="math inline">\(f(x)\)</span>，<span class="math inline">\(f(x)\)</span>就能告诉我们这个测试点是属于哪一类。</p>
+<p>​ 接下来的任务就是来确定这个超平面<span class="math inline">\(f(x)=w^Tx+b\)</span>。最好的超平面应该使得两边的数据点到这条直线的距离之和最大，也就是分隔最大的超平面。</p>
+<div class="figure">
+<img src="/images/geo.png" alt="几何间隔">
+<p class="caption">几何间隔</p>
+</div>
+<p>​ 我们需要先定义几何间隔。如上图，令平面上一个点<span class="math inline">\(x_i\)</span>投影到超平面上的的为<span class="math inline">\(x_0\)</span>，<span class="math inline">\(w\)</span>是垂直于超平面的一个向量，<span class="math inline">\(\gamma\)</span>为样本<span class="math inline">\(x_i\)</span>到超平面的距离。于是根据平面几何的知识不难得到<span class="math inline">\(x_i=x_0+\gamma \frac{w}{||w||}\)</span>，又因为<span class="math inline">\(x_0\)</span>是超平面上的一点，<span class="math inline">\(w^Tx_0+b=0\)</span>，所以一个数据点到超平面的距离 <span class="math display">\[
+\gamma_i=\frac{|w^Tx_i+b|}{||w||}=\frac{y(w^Tx_i+b)}{||w||}=\frac{yf(x_i)}{||w||}
+\]</span> 对于n个数据点<span class="math inline">\(x_1,x_2 \cdots, x_n\)</span>，几何间隔可以定义为它们的最小值<span class="math inline">\(\gamma=\text{min}_i \gamma_i\)</span>。</p>
+<p>​ 可以令<span class="math inline">\(\gamma\)</span>中的分子<span class="math inline">\(\text{min}_iy(w^Tx_i+b)=1\)</span>，那么对于所有数据点应该满足<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots,n\)</span>。现在的目标就是调整参数<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>，使得<span class="math inline">\(\gamma=\frac{1}{||w||}\)</span>取最大值，并且满足上式约束条件。</p>
+<p>​ 说个题外话，SVM和感知机的原理很相似，感知机在1957年就提出来了，是最古老的分类方法之一[4]，感知机的模型和SVM的是一样的，区别只在于优化感知机的损失函数时是固定的分母<span class="math inline">\(|||w||\)</span>，求的是所有误分类的样本到超平面的距离之和的最小值<span class="math inline">\(\gamma=\text{min}_{w,b}\sum_{x_i\in M}-y(w^Tx_i+b)\)</span>，<span class="math inline">\(M\)</span>是所有误分类点的集合。</p>
+<h4 id="转化为对偶问题">2. 2. 转化为对偶问题</h4>
+<p>​ 对于需要满足不等式约束条件的优化问题我们可以加入拉格朗日乘子。原先求<span class="math inline">\(\text{max}\frac{1}{||w||}\)</span>实际上等价于求<span class="math inline">\(\text{min}\frac{1}{2}||w||^2\)</span>。考虑拉格朗日函数 <span class="math display">\[
+\mathscr{L}(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^n\alpha_i\big(y_i(w^Tx_i+b)-1\big)
+\]</span> 如果考虑这个函数对于<span class="math inline">\(\alpha\)</span>的最大值<span class="math inline">\(\theta(w)=\text{max}_{\alpha_i\ge0}\mathscr{L}(w,b,\alpha)\)</span>，可以发现使得<span class="math inline">\(\theta(w)\)</span>取最小值的<span class="math inline">\(w\)</span>正好也能使<span class="math inline">\(\frac{1}{2}||w||^2\)</span>取最小值，并且满足约束条件<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots,n\)</span>。因为对于不满足约束的<span class="math inline">\(w\)</span>，比如<span class="math inline">\(y(w^Tx_i+b)&lt;1\)</span>，<span class="math inline">\(\alpha\)</span>可以取<span class="math inline">\(\infty\)</span>，也就是不管<span class="math inline">\(w\)</span>怎么取，<span class="math inline">\(\theta(w)\)</span>对<span class="math inline">\(w\)</span>的最小值是<span class="math inline">\(\infty\)</span>，自然没有满足约束的<span class="math inline">\(\theta(w)\)</span>小。这样原来含约束条件的优化问题就变成了单纯的优化<span class="math inline">\(w,b\)</span>，s.t. <span class="math inline">\(\theta(w)=\text{min}_{w,b}\theta(w)=\text{min}_{w,b}\text{max}_{\alpha_i\ge0}\mathscr{L}(w,b,\alpha)\equiv p^*\)</span>。</p>
+<p>​ 调换一下求最大最小的顺序，就得到原始问题的对偶问题，对用<span class="math inline">\(d^*\)</span>来表示偶问题的最优值，<span class="math inline">\(d^*\equiv \text{max}_{\alpha_i\ge0}\text{min}_{w,b}\mathscr{L}(w,b,\alpha)\)</span>，而且有<span class="math inline">\(d^*\le p^*\)</span>。可以验证，这里的函数<span class="math inline">\(\frac{1}{2}||w||^2\)</span>以及约束条件<span class="math inline">\(y(w^Tx_i+b)\ge1,i=1,\cdots n,\)</span>满足Slater条件和KKT条件，所以能取到等号<span class="math inline">\(d^*=p^*\)</span>。那么就可以直接改成求对偶问题了（之所以改成求对偶问题是因为<span class="math inline">\(\mathscr{L}(w,b,\alpha)\)</span>对<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>的导数比对<span class="math inline">\(\alpha_i\)</span>的导数好求）。</p>
+<p>​ 我们有 <span class="math display">\[
+\frac{\partial \mathscr{L}}{\partial w}=0 \Rightarrow w=\sum_{i=1}^n \alpha_i y_i x_i \tag1 \label{1} \\
+\frac{\partial \mathscr{L}}{\partial b}=0 \Rightarrow \sum_{i=1}^n \alpha_i y_i=0
+\]</span> 代入<span class="math inline">\(\mathscr{L}(w,b,\alpha)\)</span>消去<span class="math inline">\(w\)</span>和<span class="math inline">\(b\)</span>（历经千辛万苦后）得到[2] <span class="math display">\[
+\begin{align}
+\mathscr{L}(w,b,\alpha) =&amp;-\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j x_i^T x_j - b\sum_{i=1}^n \alpha_i y_i + \sum_{i=1}^n \alpha_i \\
+=&amp;\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j x_i^T x_j
+\end{align}
+\]</span> 剩下的任务就是对<span class="math inline">\(\alpha\)</span>的优化，可以看出来这是一个凸二次规划的问题（目标函数为二次函数），可以用SMO算法，在这里不再详述，因为我们后面的量子算法相当于从量子的角度来完成后面对<span class="math inline">\(\alpha\)</span>的优化。对SMO算法感兴趣的读者也可以参考[2,5]。</p>
+<h4 id="非线性分类的核函数">2. 3. 非线性分类的核函数</h4>
+<p>​ 注意到对一个数据点<span class="math inline">\(x\)</span>分类时，实际上是把<span class="math inline">\(x\)</span>代入到<span class="math inline">\(f(x)=w^Tx+b\)</span>通过其正负号来进行分类的。根据前面的推导<span class="math inline">\(\ref{1}\)</span>，分类函数可以重新写成<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i\langle x_i, x\rangle +b\)</span>，也就是说要预测一个新的数据点，只要计算它与支持向量的内积$x_i, x $就好了。</p>
+<p>​ 前面介绍的方法只能用于分类线性可分的数据，但实际中的数据大多并不是线性可分的，那么需要把前面的方法推广到线性不可分的数据。可以简单地先把之前的特征向量提升到更高维度的向量<span class="math inline">\(x_i\rightarrow\varphi_i(x)\)</span>，使得数据在高维特征空间线性可分后再套用之前的线性分类函数<span class="math inline">\(f(x)=\sum_{i=1}^l \alpha_i y_i \langle \varphi(x_i)\cdot \varphi(x)\rangle +b\)</span>。</p>
+<div class="figure">
+<img src="/images/high.jpg" alt="高维映射">
+<p class="caption">高维映射</p>
+</div>
+<p>但是通常来说高维特征空间是原始空间的指数倍大，在这么大一个空间中计算内积将是非常困难的，如果我们有方法在原始的特征空间计算映射之后的内积<span class="math inline">\(\langle \varphi(x_i)\cdot \varphi(x)\rangle\)</span>，那计算就简便很多了，这种方法就称为<em>核函数方法</em>：<span class="math inline">\(K(x,z)=\langle \varphi(x_i)\cdot \varphi(x)\rangle\)</span>，这里<span class="math inline">\(\varphi\)</span>是从原始特征空间<span class="math inline">\(X\)</span>到内积特征空间<span class="math inline">\(F\)</span>的映射。</p>
+<p>​ 看一下一个简单的核函数的例子。假设要分类这样的数据</p>
+<div class="figure">
+<img src="/images/circle.png" alt="环状数据">
+<p class="caption">环状数据</p>
+</div>
+<p>用<span class="math inline">\(X_1\)</span>和<span class="math inline">\(X_2\)</span>表示这个二维平面的两个坐标，那么分割曲线是一个二次曲线 <span class="math display">\[
+a_1 X_1 +a_2 X_1^2 +a_3 X_2 +a_4 X_2^2 +a_5 X_1 X_2 +a_6=0
+\]</span> 可以简单地构造一个五维空间<span class="math inline">\(Z_1=X_1,Z_2=X_1^2,Z_3=X_2\)</span>,<span class="math inline">\(Z_4=X_2^2\)</span>,<span class="math inline">\(Z_5=X_1X_2\)</span>，在这个新坐标<span class="math inline">\(Z\)</span>下，原来的方程可以写成 <span class="math display">\[
+\sum_{i=1}^{5}a_i Z_i +a_6 =0
+\]</span> 这正好是一个超平面方程！也就是说，如果我们做一个映射<span class="math inline">\(\varphi: R^2 \rightarrow R^5\)</span>，将<span class="math inline">\(X\)</span>按照上面的规则映射为<span class="math inline">\(Z\)</span>，那么在新的空间中原来的数据变成线性可分的了。</p>
+<div class="figure">
+<img src="/images/rotate.gif" alt="高维可分">
+<p class="caption">高维可分</p>
+</div>
+<p>​ 那么怎么在原始的空间里计算高维特征空间的内积呢？假设在原始空间里有两个特征向量<span class="math inline">\(x_1=(\eta_1, \eta_2)^T\)</span>和<span class="math inline">\(x_2=(\xi_1,\xi_2)^T\)</span>，那么映射后的内积为： <span class="math display">\[
+\langle \varphi(x_i)\cdot \varphi(x)\rangle=\eta_1 \xi_1 +\eta_1^2 \xi_1^2 +\eta_2 \xi_2 +\eta_2^2 \xi_2^2 +\eta_1 \eta_2 \xi_1 \xi_2
+\]</span> 与此同时，还注意到： <span class="math display">\[
+(\langle x_1,x_2\rangle+1)^2=2\eta_1 \xi_1 +\eta_1^2 \xi_1^2 +2\eta_2 \xi_2 +\eta_2^2 \xi_2^2 +2\eta_1 \eta_2 \xi_1 \xi_2 +1
+\]</span> 如果把原来的映射<span class="math inline">\(\varphi\)</span>的基础上缩放一下，加一个常数维度，上面这个式子其实就是用映射<span class="math inline">\(\psi\)</span>， <span class="math display">\[
+\psi(X_1,X_2)=(\sqrt{2}X_1,X_1^2,\sqrt{2}X_2,X_2^2,\sqrt{2}X_1X_2,1)^T
+\]</span> 之后的得到的内积<span class="math inline">\(\langle \psi(x_i)\cdot \psi(x)\rangle\)</span>。这样在原始空间计算<em>核函数</em>（Kernel Function）就相当于在高维空间中求内积，这个例子中的核函数是<span class="math inline">\(\kappa(x_1，x_2)=(\langle x_1,x_2\rangle+1)^2\)</span>。</p>
+<p>​ 使用核函数之后，分类函数就由<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i\langle x_i, x\rangle +b\)</span>变成了<span class="math inline">\(f(x)=\sum_{i=1}^n \alpha_i y_i \kappa(x_1，x_2) +b\)</span>，需要优化的对偶问题也由<span class="math inline">\(\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j \langle \varphi(x_i)\cdot \varphi(x)\rangle\)</span>变成了<span class="math inline">\(\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j \kappa(x_1，x_2)\)</span>。</p>
+<p>​ 这个例子中的核函数<span class="math inline">\(\kappa(x_1，x_2)=(\langle x_1,x_2\rangle+1)^2\)</span>是多项式核函数<span class="math inline">\(\kappa(x_1，x_2)=( a x_1\cdot x_2+r)^d\)</span>中的一种，另一种最主流的核函数是高斯核函数(Gaussian Kernel)，也叫径向基核函数（Radial Basis Function, RBF），<span class="math inline">\(\kappa(x_1,x_2)=\text{exp}(-||x_1-x_2||^2/\sigma^2)\)</span>。　Sigmoid核函数也是线性不可分SVM常用的核函数之一（two layer neural SVM），表达式为：<span class="math inline">\(\kappa(x_1,x_2)=\text{tanh}(r x_1 \cdot x_2+b)\)</span>。</p>
+<h4 id="加入松弛变量">2.4. 加入松弛变量</h4>
+<p>​ 前面介绍的SVM有很大的局限性，最后得到的参数完全只依赖于少数的几个支持向量，如果这几个支持向量受到某些噪声扰动的话，训练得到的超平面会受影响很大，并且，如果有几个异常数据点（outlier）偏离正常位置很远，那么甚至都没办法训练出超平面。为了消除这些影响，可以放宽之前的约束条件<span class="math inline">\(y(w^T\varphi(x_i)+b)\ge1,i=1,\cdots n\)</span>成<span class="math inline">\(y(w^T\varphi(x_i)+b)\ge1-\xi_i,i=1,\cdots n\)</span>，其中<span class="math inline">\(\xi_i\ge0\)</span>就是松弛变量（Slack Variable）。</p>
+<p>​ 为了最小化结构风险，目标函数现在变成了 <span class="math display">\[
+\text{min}\frac{1}{2}||w||^2+C\sum_{i=1}^n \xi_i
+\]</span> s.t. <span class="math inline">\(y(w^T\varphi(x_i)+b)\ge1-\xi_i,i=1,…, n, \xi_i\ge0\)</span>。拉格朗日函数现在变成 <span class="math display">\[
+\begin{align}
+\mathscr{L}(w,b,\xi;\alpha,r)=&amp;\frac{1}{2}||w||^2+C\sum_{i=1}^n \xi_i \\
+&amp;-\sum_{i=1}^n \alpha_i \big( y_i(w^T \varphi(x_i)+b)-1+\xi_i\big) -\sum_{i=1}^n r_i \xi_i
+\end{align}
+\]</span> 对<span class="math inline">\(w,b\)</span>和<span class="math inline">\(\xi\)</span>优化得到 <span class="math display">\[
+\begin{align}
+\frac{\partial \mathscr{L}}{\partial w}=&amp;0 \Rightarrow w=\sum_{i=1}^n \alpha_i y_i \varphi(x_i) \\
+\frac{\partial \mathscr{L}}{\partial b}=&amp;0 \Rightarrow \sum_{i=1}^n \alpha_i y_i=0 \tag2\\
+\frac{\partial \mathscr{L}}{\partial \xi_i}=&amp;0 \Rightarrow C-\alpha_i-r_i=0 , i=1,..., n
+\end{align}
+\]</span> 因为<span class="math inline">\(r_i\ge 0\)</span>（拉格朗日的乘子要求），所以<span class="math inline">\(\alpha_i\le C\)</span>。在<span class="math inline">\(\mathscr{L}\)</span>中代入<span class="math inline">\(w\)</span>得到和原来一样的目标函数 <span class="math display">\[
+\text{max}_{\alpha}\sum_{i=1}^n \alpha_i -\frac{1}{2} \sum_{i,j=1}^n \alpha_i\alpha_j y_i y_j \varphi(x_i)^T \varphi(x_j)
+\]</span> s.t. $ 0<em>iC, i=1, …, n<span class="math inline">\(并且\)</span></em>{i=1}^n _i y_i=0 $。</p>
+<h4 id="最小二乘版的svm">2.5. 最小二乘版的SVM</h4>
+<p>​ 现在把原先的SVM写成最小二乘法的版本[6]：把目标函数写成平方和的形式 <span class="math display">\[
+\frac{1}{2}||w||^2+\frac{\gamma}{2}\sum_{i=1}^n e_k^2
+\]</span> 同时把不等式约束改成等式约束 <span class="math display">\[
+y(w^T\varphi(x_i)+b)=1-e_i,i=1,…, n
+\]</span> 拉格朗日量定义成 <span class="math display">\[
+\begin{align}
+\mathscr{L}(w,b,\xi;\alpha,r)=&amp;\frac{1}{2}||w||^2+\frac{\gamma}{2}\sum_{i=1}^n e_i \\
+&amp;-\sum_{i=1}^n \alpha_i \big( y_i(w^T \varphi(x_i)+b)-1+e_i\big)
+\end{align}
+\]</span> 取极值时有如下四个等式 <span class="math display">\[
+\begin{align}
+\frac{\partial \mathscr{L}}{\partial w}=&amp;0 \Rightarrow w=\sum_{i=1}^n \alpha_i y_i \varphi(x_i) \\
+\frac{\partial \mathscr{L}}{\partial b}=&amp;0 \Rightarrow \sum_{i=1}^n \alpha_i y_i=0 \\
+\frac{\partial \mathscr{L}}{\partial e_i}=&amp;0 \Rightarrow \alpha_i=\gamma e_i , i=1,..., n \tag3\\
+\frac{\partial \mathscr{L}}{\partial \alpha_i}=&amp;0 \Rightarrow y_i(w^T \varphi(x_i)+b)-1+e_i=0,i=1,...,n
+\end{align}
+\]</span> 容易改写成线性方程组的形式 <span class="math display">\[
+\begin{pmatrix} I&amp;0&amp;0&amp;-Z^T\\0&amp;0&amp;0&amp;-Y^T\\0&amp;0&amp;\gamma I&amp;-I\\Z&amp;Y&amp;I&amp;0 \end{pmatrix}\begin{pmatrix} w\\b\\e\\ \alpha \end{pmatrix}=\begin{pmatrix} 0\\0\\0\\ \vec{1} \end{pmatrix}
+\]</span> 其中<span class="math inline">\(Z=(\varphi(x_1)^Ty_1, \varphi(x_2)^Ty_2,…,\varphi(x_n)^Ty_n)^T\)</span>, <span class="math inline">\(Y=(y_1,…,y_n)^T\)</span>, <span class="math inline">\(\vec{1}=(1,…,1)^T\)</span>, <span class="math inline">\(e=(e_1, e_2,…,e_n)^T\)</span>,<span class="math inline">\(\alpha=(\alpha_1,…,\alpha_n)^T\)</span>。这个方程组的解同样满足 <span class="math display">\[
+\begin{pmatrix} 0&amp;-Y^T\\Y&amp;ZZ^T+\gamma^{-1}I  \end{pmatrix} \begin{pmatrix}b \\ \alpha \end{pmatrix}=\begin{pmatrix} 0 \\ \vec{1} \end{pmatrix}
+\]</span> ​ 原始版本的SVM中大部分不是支持向量的<span class="math inline">\(\alpha_i\)</span>都等于0，而现在从(3)式可以看到<span class="math inline">\(\alpha_i\)</span>正比于数据点的错误值<span class="math inline">\(e_i\)</span>。总结一下，我们通过修改目标函数和约束条件，把原来的二次规划的问题转化成了解线性方程组。</p>
+<h2 id="量子支持向量机">3. 量子支持向量机</h2>
+<p>​ 最初用量子计算机来做机器学习有一个动机就是量子计算机非常善于处理高维的张量运算（想一想n个qubits就能表示一个<span class="math inline">\(2^n\)</span>维的矢量），而机器学习又正好动不动上万维，甚至上亿维的操作，正好一个萝卜一个坑。据估计[7]，现在地球上所有的电子设备每年产生的数据量是<span class="math inline">\(10^{18}\)</span>比特，而这么多比特只需要60个量子比特就能表示出来，甚至整个可观测宇宙中所有的原子数目<span class="math inline">\(10^{80}\)</span>这么大的数字也只需要300个量子比特。</p>
+<p>​ 一般来说，量子机器学习算法是这样实现的：1）把N维的经典数据储存到<span class="math inline">\(Log_2(N)\)</span>的量子比特上去，比如quantum random access memory (qRAM)这样的架构；2）对量子比特进行操作，利用其平行计算的特性，充分利用现有的量子算法，像QFT，HHL算法；3）最后进行针对性的测量（通常来说测量只能得到一小部分的结果）。</p>
+<h4 id="内积的量子算法">3.1. 内积的量子算法</h4>
+<h4 id="量子主成分分析">3.2. 量子主成分分析</h4>
+<h4 id="分类">3.3. 分类</h4>
+<h4 id="识别手写数字6和9">3.4. 识别手写数字6和9</h4>
+<p>​ 笔者用Python实现的<a href="https://github.com/JinlongHuang/quantum-SVM" target="_blank" rel="external">QSVM</a>基于一个叫QuTip的包，是计算机模拟量子力学和量子计算中常用的开源包，包含常用的单比特门，两比特门的实现，可以画出相应的量子线路pdf图，得到运算后的矩阵元素。</p>
+<div class="figure">
+<img src="/images/circuit.png" alt="量子线路图">
+<p class="caption">量子线路图</p>
+</div>
+<p>​ 训练集只有两个数据，标准印刷体的6和9，测试数据来自GitHub项目<a href="https://github.com/damiles/basicOCR" class="uri" target="_blank" rel="external">https://github.com/damiles/basicOCR</a>，特征是图片的黑色像素点个数的比例，上/下和左/右，标准的6的特征向量是$x_1=(0.987, 0.159) <span class="math inline">\(，标准的9是\)</span>x_2=(0.354, 0.935)<span class="math inline">\(，测试数据是\)</span>x_0<span class="math inline">\(，通过绕Y轴旋转\)</span>_i=[(x_i)_1/(x_i)_2],i=0,1,2<span class="math inline">\(来encode到量子态里。最后通过读取末态的第14个元素的正负来判断是6还是9，因为末态是\)</span>|=||1+|000 |0 <span class="math inline">\(，而判断需要的值是\)</span> 000|$。</p>
+<div class="figure">
+<img src="/images/demo.png" alt="demo">
+<p class="caption">demo</p>
+</div>
+<p>未来可能考虑在MNIST上测试一下成功率，或者Fashion-MNIST，有问题或者建议的筒子欢迎联系我，知乎上戳千风者，或者E-mail: Huangjl@mail.sustc.edu.cn。</p>
+<p>参考资料：</p>
+<p>1.) Nielsen, Michael A., and Isaac Chuang. “Quantum computation and quantum information.” (2002): 558-559.</p>
+<p>2.) <a href="http://blog.csdn.net/v_july_v/article/details/7624837" target="_blank" rel="external">支持向量机通俗导论（理解SVM的三层境界）</a></p>
+<p>3.) Andrew NG, Lecture notes, <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf" target="_blank" rel="external"><em>Logistic Regression Classification</em></a>.</p>
+<p>4.) <a href="http://www.cnblogs.com/pinard/p/6042320.html" target="_blank" rel="external">感知机原理小结</a></p>
+<p>5.）Platt, John. “Sequential minimal optimization: A fast algorithm for training support vector machines.” (1998).</p>
+<p>6.) Suykens, Johan AK, and Joos Vandewalle. “Least squares support vector machine classifiers.” <em>Neural processing letters</em> 9.3 (1999): 293-300.</p>
+<p>7.) Lloyd, Seth, Masoud Mohseni, and Patrick Rebentrost. “Quantum algorithms for supervised and unsupervised machine learning.” <em>arXiv preprint arXiv:1307.0411</em> (2013).</p>
+<p>8.) Lloyd, Seth, Masoud Mohseni, and Patrick Rebentrost. “Quantum principal component analysis.” <em>arXiv preprint arXiv:1307.0401</em> (2013).</p>
+<p>9.) Rebentrost, Patrick, Masoud Mohseni, and Seth Lloyd. “Quantum support vector machine for big data classification.” <em>Physical review letters</em> 113.13 (2014): 130503.</p>
+<p>10.) Li, Zhaokai, et al. “Experimental realization of a quantum support vector machine.” <em>Physical review letters</em> 114.14 (2015): 140504.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/量子计算/" rel="tag"># 量子计算</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/31/八卦一下量子机器学习的历史/" rel="next" title="八卦一下量子机器学习的历史">
+                <i class="fa fa-chevron-left"></i> 八卦一下量子机器学习的历史
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/04/Firewall-1/" rel="prev" title="A Short Review of Firewall Problem">
+                A Short Review of Firewall Problem <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/group.jpg"
+               alt="Jinlong Huang" />
+          <p class="site-author-name" itemprop="name">Jinlong Huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">The eternal mystery of the world is its comprehensibility.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JinlongHuang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/qian-feng-zhe/activities" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:huangjl@mail.sustc.edu.cn" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              My friends
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yupanliu.link" title="Yupan Liu" target="_blank">Yupan Liu</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#量子算法"><span class="nav-number">1.</span> <span class="nav-text">1. 量子算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最大纠缠态"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. 最大纠缠态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相估计"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. 相估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#振幅放大"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. 振幅放大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hhl算法"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. HHL算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持向量机"><span class="nav-number"></span> <span class="nav-text">2. 支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性分类器"><span class="nav-number">0.1.</span> <span class="nav-text">2. 1. 线性分类器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转化为对偶问题"><span class="nav-number">0.2.</span> <span class="nav-text">2. 2. 转化为对偶问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非线性分类的核函数"><span class="nav-number">0.3.</span> <span class="nav-text">2. 3. 非线性分类的核函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加入松弛变量"><span class="nav-number">0.4.</span> <span class="nav-text">2.4. 加入松弛变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小二乘版的svm"><span class="nav-number">0.5.</span> <span class="nav-text">2.5. 最小二乘版的SVM</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#量子支持向量机"><span class="nav-number"></span> <span class="nav-text">3. 量子支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内积的量子算法"><span class="nav-number">0.1.</span> <span class="nav-text">3.1. 内积的量子算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#量子主成分分析"><span class="nav-number">0.2.</span> <span class="nav-text">3.2. 量子主成分分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">0.3.</span> <span class="nav-text">3.3. 分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#识别手写数字6和9"><span class="nav-number">0.4.</span> <span class="nav-text">3.4. 识别手写数字6和9</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jinlong Huang</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8fnoUI4VOl7h1nh104r1HjvU-gzGzoHsz", "eFhyjIYw655dgh3LLHD6Qygk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+</body>
+</html>
