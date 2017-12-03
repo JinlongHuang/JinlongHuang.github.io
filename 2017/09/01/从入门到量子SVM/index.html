@@ -93,13 +93,13 @@
 
 
 
-<meta name="description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta name="description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle​\)">
 <meta name="keywords" content="量子计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从入门到量子SVM">
 <meta property="og:url" content="http://blog.jinlonghuang.org/2017/09/01/从入门到量子SVM/index.html">
 <meta property="og:site_name" content="Jinlong Huang">
-<meta property="og:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta property="og:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle​\)">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/bell.png">
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/linear.jpg">
@@ -109,10 +109,10 @@
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/rotate.gif">
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/circuit.png">
 <meta property="og:image" content="http://blog.jinlonghuang.org/images/demo.png">
-<meta property="og:updated_time" content="2017-12-03T16:56:37.000Z">
+<meta property="og:updated_time" content="2017-12-03T16:59:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从入门到量子SVM">
-<meta name="twitter:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle\)，">
+<meta name="twitter:description" content="​ 讲量子SVM之前先介绍一下基本的量子算法和经典SVM的背景知识。 1. 量子算法 1.1. 最大纠缠态 ​ 先讲量子线路模型，它十分直观，很符合正常物理学家和计算机学家的思维[1]。   EPR pair  上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： \(|\psi\rangle=a |0\rangle+b |1\rangle​\)">
 <meta name="twitter:image" content="http://blog.jinlonghuang.org/images/bell.png">
 
 
@@ -349,7 +349,7 @@
 <img src="/images/bell.png" alt="EPR pair">
 <p class="caption">EPR pair</p>
 </div>
-<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle\)</span> 和 <span class="math inline">\(|1\rangle\)</span>，<span class="math inline">\(a,b\)</span>分别为<span class="math inline">\(|0\rangle\)</span>和<span class="math inline">\(|1\rangle\)</span>的振幅， <span class="math inline">\(a^2\)</span>表示状态<span class="math inline">\(|0\rangle\)</span>出现的概率， <span class="math inline">\(b^2\)</span>表示状态<span class="math inline">\(|1\rangle\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2\)</span>，<span class="math inline">\(\bigotimes\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}\)</span>。 中间的符号H，CNOT表示对态进行量子门(quantum gate)的操作，经过这两个量子门后就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)\)</span>，也就是两个qubits的最大纠缠态。</p>
+<p>上面这个线路就展示了怎么制备一对最大纠缠的量子态(EPR pair)。一般纯态的qubit可以写成这样： <span class="math inline">\(|\psi\rangle=a |0\rangle+b |1\rangle​\)</span>，这个量子系统只有两种可能允许的状态<span class="math inline">\(|0\rangle​\)</span> 和 <span class="math inline">\(|1\rangle​\)</span>，<span class="math inline">\(a,b​\)</span>分别为<span class="math inline">\(|0\rangle​\)</span>和<span class="math inline">\(|1\rangle​\)</span>的振幅， <span class="math inline">\(a^2​\)</span>表示状态<span class="math inline">\(|0\rangle​\)</span>出现的概率， <span class="math inline">\(b^2​\)</span>表示状态<span class="math inline">\(|1\rangle​\)</span>出现的概率。如果取<span class="math inline">\(|0\rangle= \begin{pmatrix}1 \\ 0 \end{pmatrix}​\)</span>和<span class="math inline">\(|1\rangle= \begin{pmatrix}0 \\ 1 \end{pmatrix}​\)</span>作为二维线性空间的一个基，那么量子态<span class="math inline">\(|\psi\rangle​\)</span>也可以写成一个二维矢量<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix}​\)</span>。每一条水平线代表一个qubit，最左边是输入的量子态(initial state)，比如这里输入<span class="math inline">\(|00\rangle=|0\rangle_1\bigotimes|0\rangle_2​\)</span>，<span class="math inline">\(\bigotimes​\)</span>表示1系统和2系统的张量积(tensor product)，<span class="math inline">\(\begin{pmatrix}a \\ b \end{pmatrix} \bigotimes \begin{pmatrix}c \\ d \end{pmatrix}=\begin{pmatrix}ac \\ ad \\ bc\\ bd \end{pmatrix}​\)</span>。 中间的符号H，CNOT表示对态进行量子门(quantum gate)的操作，经过这两个量子门后就制备了一个Bell态 <span class="math inline">\(|\psi\rangle=\frac{1}{\sqrt{2}}(|00\rangle+|11\rangle)​\)</span>，也就是两个qubits的最大纠缠态。</p>
 <p>​ 让我们来复习一下常用的单比特门：</p>
 <p><span class="math inline">\(H=\frac{1}{\sqrt{2}}\begin{pmatrix} 1&amp;1\\1&amp;-1 \end{pmatrix}\)</span>, <span class="math inline">\(X=\begin{pmatrix} 0&amp;1\\1&amp;0 \end{pmatrix}\)</span>, <span class="math inline">\(Y=\begin{pmatrix} 0&amp;-i\\i&amp;0 \end{pmatrix}\)</span>, <span class="math inline">\(Z=\begin{pmatrix} 1&amp;0\\0&amp;-1 \end{pmatrix}\)</span>, <span class="math inline">\(S=\begin{pmatrix} 1&amp;0\\0&amp;i \end{pmatrix}\)</span>, <span class="math inline">\(T=\begin{pmatrix} 1&amp;0\\0&amp;e^{i \pi/4} \end{pmatrix}\)</span>,<br>
 <span class="math display">\[
@@ -714,7 +714,7 @@ y(w^T\varphi(x_i)+b)=1-e_i,i=1,…, n
             <ul class="links-of-blogroll-list">
               
                 <li class="links-of-blogroll-item">
-                  <a href="http://yupanliu.link" title="Yupan Liu" target="_blank">Yupan Liu</a>
+                  <a href="http://www.cs.huji.ac.il/~yupan" title="Yupan Liu" target="_blank">Yupan Liu</a>
                 </li>
               
             </ul>
